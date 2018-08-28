@@ -11,14 +11,11 @@ package administracion_mascotas;
  */
 public class Administracion_Mascotas {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
-        
-        formClientes formC = new formClientes();
-        formC.setVisible(true);
+          
+       formClientes formC = new formClientes();
+       formMascotas form_mascotas = new formMascotas();
+        form_mascotas.setVisible(true);
          
     }
     

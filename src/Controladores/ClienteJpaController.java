@@ -14,7 +14,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Entidades.Mascota;
-import com.sun.security.ntlm.Client;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -186,8 +185,8 @@ public class ClienteJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
 
-            Query q = em.createNativeQuery("SELECT Cliente.NombreCliente , Cliente.IdentCliente FROM Tienda.Cliente WHERE Cliente.NombreCliente = ?1", Cliente.class);
-            q.setParameter( 1 , nombreCliente);
+            Query q = em.createNativeQuery("SELECT Cliente.NombreCliente , Cliente.IdentCliente FROM Tienda.Cliente WHERE Cliente.NombreCliente LIKE ?1", Cliente.class);
+            q.setParameter( 1 , "%"+nombreCliente+"%");
             List<Cliente> cl = (List<Cliente>) q.getResultList();
             
             return cl;

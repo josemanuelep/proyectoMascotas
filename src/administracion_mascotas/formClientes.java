@@ -27,6 +27,8 @@ public class formClientes extends javax.swing.JFrame {
         initComponents();
         CrearModelo();
         Cargar_infoClientes();
+        //Esconder boton 
+        btn_restablecer.setVisible(false);
         //Grupo radio button
         buttonGroup2.add(rdb_id);
         buttonGroup2.add(rdb_nombre);
@@ -115,6 +117,7 @@ public class formClientes extends javax.swing.JFrame {
         rdb_id = new javax.swing.JRadioButton();
         rdb_nombre = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
+        btn_restablecer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -182,11 +185,22 @@ public class formClientes extends javax.swing.JFrame {
 
         jSeparator1.setForeground(new java.awt.Color(102, 102, 102));
 
+        btn_restablecer.setText("Restablecer");
+        btn_restablecer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_restablecerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSeparator1)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -208,13 +222,11 @@ public class formClientes extends javax.swing.JFrame {
                     .addComponent(jButton_Guardar, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
                 .addGap(84, 84, 84))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 34, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSeparator1)
-                .addContainerGap())
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_restablecer)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,9 +253,11 @@ public class formClientes extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdb_id)
                     .addComponent(rdb_nombre))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(3, 3, 3)
+                .addComponent(btn_restablecer)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53))
+                .addGap(16, 16, 16))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -259,7 +273,7 @@ public class formClientes extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 472, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -352,6 +366,8 @@ public class formClientes extends javax.swing.JFrame {
 
                         //System.out.println(listaClientes.get(i).getNombreCliente());
                     }
+                    
+                    btn_restablecer.setVisible(true);
 
                 }
 
@@ -373,6 +389,12 @@ public class formClientes extends javax.swing.JFrame {
     private void rdb_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdb_idActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rdb_idActionPerformed
+
+    private void btn_restablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restablecerActionPerformed
+        Cargar_infoClientes();
+        btn_restablecer.setVisible(false);
+        txt_buscar.setText("");
+    }//GEN-LAST:event_btn_restablecerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -411,6 +433,7 @@ public class formClientes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_buscar;
+    private javax.swing.JButton btn_restablecer;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton_Guardar;
     private javax.swing.JLabel jLabel2;

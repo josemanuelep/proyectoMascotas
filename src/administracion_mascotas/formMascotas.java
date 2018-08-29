@@ -7,11 +7,15 @@ package administracion_mascotas;
 
 import Controladores.ClienteJpaController;
 import Controladores.MascotaJpaController;
+import Controladores.RazaJpaController;
 import Entidades.Cliente;
 import Entidades.Mascota;
+import Entidades.Raza;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SpinnerListModel;
+import javax.swing.SpinnerModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,9 +24,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class formMascotas extends javax.swing.JFrame {
 
-    /**
-     * Creates new form formMascotas
-     */
+    //Instancia de controlador clientes
+    ClienteJpaController clienteController = new ClienteJpaController();
+    Cliente miCliente = new Cliente();
+    
+    //Instancia de controlador Razas
+    RazaJpaController razaController = new RazaJpaController();
+    List<Raza> razas = razaController.findRazaEntities();
+
     public formMascotas() {
         initComponents();
         CrearModeloClientes();
@@ -32,15 +41,26 @@ public class formMascotas extends javax.swing.JFrame {
         //Grupo radio button
         buttonGroup1.add(rdb_id);
         buttonGroup1.add(rdb_nombre);
+        
+        //Datos del spinner model
+//        String[] values = {"one", "two", "free", "four"};
+//        SpinnerModel model = new SpinnerListModel(values);
+//        spn_raza.setModel(model);
+
+        //Datos del comboBox
+        
+        for (int i = 0; i < razas.size(); i++) {
+            
+            ComboBox_raza.addItem(razas.get(i).getIdRaza()+" - "+razas.get(i).getRaza());
+        }
+        
+        
+        
     }
 
     //Instancia de Mascota y controlaodr
     Mascota mas = new Mascota();
     MascotaJpaController masController = new MascotaJpaController();
-
-    //Instancia de controlador
-    ClienteJpaController clienteController = new ClienteJpaController();
-    Cliente miCliente = new Cliente();
 
     // Crear tabla a la hora de leer los datos
     DefaultTableModel modelo;
@@ -123,15 +143,15 @@ public class formMascotas extends javax.swing.JFrame {
         jButton_Guardar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         btn_restablecer = new javax.swing.JButton();
-        txt_id = new javax.swing.JTextField();
+        txt_dueño = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaMascotas = new javax.swing.JTable();
         btn_buscar = new javax.swing.JButton();
-        txt_nombre = new javax.swing.JTextField();
+        txt_nombreMascota = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        ComboBox_raza = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaClientes = new javax.swing.JTable();
@@ -141,6 +161,8 @@ public class formMascotas extends javax.swing.JFrame {
         txt_buscarDueno = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         btn_buscarDueno = new javax.swing.JButton();
+        txt_restablecerClientes = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -155,16 +177,16 @@ public class formMascotas extends javax.swing.JFrame {
 
         jSeparator1.setForeground(new java.awt.Color(102, 102, 102));
 
-        btn_restablecer.setText("Restablecer");
+        btn_restablecer.setText("Restablecer ");
         btn_restablecer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_restablecerActionPerformed(evt);
             }
         });
 
-        txt_id.addActionListener(new java.awt.event.ActionListener() {
+        txt_dueño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_idActionPerformed(evt);
+                txt_dueñoActionPerformed(evt);
             }
         });
 
@@ -193,72 +215,72 @@ public class formMascotas extends javax.swing.JFrame {
             }
         });
 
-        txt_nombre.addActionListener(new java.awt.event.ActionListener() {
+        txt_nombreMascota.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_nombreActionPerformed(evt);
+                txt_nombreMascotaActionPerformed(evt);
             }
         });
 
         jLabel2.setText("Nombre Mascota:");
 
-        jSpinner1.setModel(new javax.swing.SpinnerListModel(new String[] {""}));
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(286, 286, 286)
+                                .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(txt_dueño, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txt_nombreMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(ComboBox_raza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(14, 14, 14))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_id)
-                            .addComponent(txt_nombre)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(21, 136, Short.MAX_VALUE)
-                                .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(29, 29, 29)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_restablecer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_Guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_restablecer, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton_Guardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap()
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_nombre)
+                    .addComponent(txt_nombreMascota)
                     .addComponent(jLabel2)
-                    .addComponent(jButton_Guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_buscar))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_dueño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_restablecer)
-                    .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ComboBox_raza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(20, 20, 20)
+                .addComponent(jButton_Guardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btn_restablecer)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Clientes"));
@@ -277,7 +299,12 @@ public class formMascotas extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tablaClientes);
 
-        btn_selectDueno.setText("Seleccionar Dueño");
+        btn_selectDueno.setText("Seleccionar");
+        btn_selectDueno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_selectDuenoActionPerformed(evt);
+            }
+        });
 
         rdb_nombre.setText("Nombre");
         rdb_nombre.addActionListener(new java.awt.event.ActionListener() {
@@ -302,6 +329,15 @@ public class formMascotas extends javax.swing.JFrame {
             }
         });
 
+        txt_restablecerClientes.setText("Restablecer");
+        txt_restablecerClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_restablecerClientesActionPerformed(evt);
+            }
+        });
+
+        jSeparator2.setForeground(new java.awt.Color(102, 102, 102));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -309,6 +345,8 @@ public class formMascotas extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
@@ -317,31 +355,38 @@ public class formMascotas extends javax.swing.JFrame {
                                 .addComponent(rdb_id)
                                 .addGap(18, 18, 18)
                                 .addComponent(rdb_nombre))
-                            .addComponent(txt_buscarDueno, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_buscarDueno, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_buscarDueno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_selectDueno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(35, 35, 35))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(txt_restablecerClientes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                            .addComponent(btn_selectDueno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_buscarDueno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(8, 8, 8)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txt_buscarDueno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_buscarDueno))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdb_id)
-                    .addComponent(rdb_nombre)
-                    .addComponent(btn_selectDueno))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_selectDueno))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rdb_id)
+                            .addComponent(rdb_nombre))))
+                .addGap(18, 18, 18)
+                .addComponent(txt_restablecerClientes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -349,20 +394,20 @@ public class formMascotas extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -377,13 +422,13 @@ public class formMascotas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_restablecerActionPerformed
 
-    private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
+    private void txt_dueñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_dueñoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_idActionPerformed
+    }//GEN-LAST:event_txt_dueñoActionPerformed
 
-    private void txt_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreActionPerformed
+    private void txt_nombreMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreMascotaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_nombreActionPerformed
+    }//GEN-LAST:event_txt_nombreMascotaActionPerformed
 
     private void jButton_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GuardarActionPerformed
         // TODO add your handling code here:
@@ -405,9 +450,12 @@ public class formMascotas extends javax.swing.JFrame {
 
             Double id = Double.parseDouble(txt_buscarDueno.getText());
             miCliente = clienteController.findCliente(id);
+
             if (miCliente != null) {
-                txt_nombre.setText(miCliente.getNombreCliente());
-                txt_id.setText(miCliente.getIdentCliente().toString());
+
+                txt_nombreMascota.setText(miCliente.getNombreCliente());
+                txt_dueño.setText(miCliente.getIdentCliente().toString());
+
             } else {
 
                 JOptionPane.showMessageDialog(null, "El usuario no se encuentra en la base de datos");
@@ -418,26 +466,19 @@ public class formMascotas extends javax.swing.JFrame {
             List<Cliente> cl = clienteController.findCliente(nombre);
             if (cl.isEmpty() == false) {
 
-                if (cl.size() == 1) {
-                    txt_nombre.setText(cl.get(0).getNombreCliente());
-                    txt_id.setText(cl.get(0).getIdentCliente().toString());
-                } else {
+                Object Tupla[] = null;
+                limpiarTabla(tablaClientes);
+                for (int i = 0; i < cl.size(); i++) {
 
-                    Object Tupla[] = null;
-                    limpiarTabla(tablaMascotas);
-                    for (int i = 0; i < cl.size(); i++) {
+                    //Listar Clientes retornados en la lista
+                    modelo.addRow(Tupla);
+                    modelo.setValueAt(cl.get(i).getIdentCliente(), i, 0);
+                    modelo.setValueAt(cl.get(i).getNombreCliente(), i, 1);
 
-                        //Listar Clientes retornados en la lista
-                        modelo.addRow(Tupla);
-                        modelo.setValueAt(cl.get(i).getIdentCliente(), i, 0);
-                        modelo.setValueAt(cl.get(i).getNombreCliente(), i, 1);
-
-                        //System.out.println(listaClientes.get(i).getNombreCliente());
-                    }
-
-                    btn_restablecer.setVisible(true);
-
+                    //System.out.println(listaClientes.get(i).getNombreCliente());
                 }
+
+                btn_restablecer.setVisible(true);
 
             } else {
                 JOptionPane.showMessageDialog(null, "El usuario no se encuentra en la base de datos");
@@ -448,6 +489,22 @@ public class formMascotas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Seleccione un criterio de busqueda en el radio boton");
         }
     }//GEN-LAST:event_btn_buscarDuenoActionPerformed
+
+    private void btn_selectDuenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_selectDuenoActionPerformed
+
+        Double id_cliente = (Double) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
+
+        System.out.println("" + id_cliente);
+
+        txt_dueño.setText(id_cliente.toString());
+    }//GEN-LAST:event_btn_selectDuenoActionPerformed
+
+    private void txt_restablecerClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_restablecerClientesActionPerformed
+
+        Cargar_infoClientes();
+        btn_restablecer.setVisible(false);
+
+    }//GEN-LAST:event_txt_restablecerClientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -485,6 +542,7 @@ public class formMascotas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ComboBox_raza;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_buscarDueno;
     private javax.swing.JButton btn_restablecer;
@@ -500,13 +558,14 @@ public class formMascotas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JRadioButton rdb_id;
     private javax.swing.JRadioButton rdb_nombre;
     private javax.swing.JTable tablaClientes;
     private javax.swing.JTable tablaMascotas;
     private javax.swing.JTextField txt_buscarDueno;
-    private javax.swing.JTextField txt_id;
-    private javax.swing.JTextField txt_nombre;
+    private javax.swing.JTextField txt_dueño;
+    private javax.swing.JTextField txt_nombreMascota;
+    private javax.swing.JButton txt_restablecerClientes;
     // End of variables declaration//GEN-END:variables
 }

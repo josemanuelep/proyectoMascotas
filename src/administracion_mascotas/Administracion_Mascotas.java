@@ -15,7 +15,8 @@ public class Administracion_Mascotas {
           
        formClientes formC = new formClientes();
        formMascotas form_mascotas = new formMascotas();
-       form_mascotas.setVisible(true);
+       form_mascotas.setVisible(false);
+       formC.setVisible(true);
          
     }
     

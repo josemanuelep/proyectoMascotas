@@ -6,7 +6,9 @@
 package administracion_mascotas;
 
 import Controladores.ClienteJpaController;
+import Controladores.exceptions.NonexistentEntityException;
 import Entidades.Cliente;
+import java.awt.HeadlessException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -118,6 +120,10 @@ public class formClientes extends javax.swing.JFrame {
         rdb_nombre = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
         btn_restablecer = new javax.swing.JButton();
+        btn_borrar = new javax.swing.JButton();
+        btn_actualizar = new javax.swing.JButton();
+        btn_seleccionar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -192,40 +198,75 @@ public class formClientes extends javax.swing.JFrame {
             }
         });
 
+        btn_borrar.setText("Borrar");
+        btn_borrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_borrarActionPerformed(evt);
+            }
+        });
+
+        btn_actualizar.setText("Actualizar");
+        btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_actualizarActionPerformed(evt);
+            }
+        });
+
+        btn_seleccionar.setText("Seleccionar");
+        btn_seleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_seleccionarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Limpiar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSeparator1)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(rdb_id)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
                         .addGap(18, 18, 18)
-                        .addComponent(rdb_nombre)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(txt_id)
-                    .addComponent(txt_nombre)
-                    .addComponent(txt_buscar))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton_Guardar, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
-                .addGap(84, 84, 84))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(rdb_id)
+                                .addGap(18, 18, 18)
+                                .addComponent(rdb_nombre)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txt_id)
+                            .addComponent(txt_nombre)
+                            .addComponent(txt_buscar))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton_Guardar, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                                    .addComponent(btn_borrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btn_actualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_seleccionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btn_restablecer, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)))
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btn_restablecer)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -240,25 +281,28 @@ public class formClientes extends javax.swing.JFrame {
                         .addComponent(txt_nombre))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(jButton_Guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jButton_Guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_borrar)
+                    .addComponent(btn_seleccionar))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_buscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(btn_buscar)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdb_id)
-                    .addComponent(rdb_nombre))
-                .addGap(3, 3, 3)
-                .addComponent(btn_restablecer)
+                    .addComponent(rdb_nombre)
+                    .addComponent(btn_restablecer))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -355,8 +399,8 @@ public class formClientes extends javax.swing.JFrame {
                     txt_nombre.setText(cl.get(0).getNombreCliente());
                     txt_id.setText(cl.get(0).getIdentCliente().toString());
                 } else {
-                    
-                    Object Tupla[]=null;
+
+                    Object Tupla[] = null;
                     limpiarTabla(tablaClientes);
                     for (int i = 0; i < cl.size(); i++) {
 
@@ -367,7 +411,7 @@ public class formClientes extends javax.swing.JFrame {
 
                         //System.out.println(listaClientes.get(i).getNombreCliente());
                     }
-                    
+
                     btn_restablecer.setVisible(true);
 
                 }
@@ -396,6 +440,122 @@ public class formClientes extends javax.swing.JFrame {
         btn_restablecer.setVisible(false);
         txt_buscar.setText("");
     }//GEN-LAST:event_btn_restablecerActionPerformed
+
+    private void btn_borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_borrarActionPerformed
+        // TODO add your handling code here:
+        String id_cliente;
+        String id_definitivo[];
+        int val;
+        if (tablaClientes.getSelectedRowCount() > 0) {
+            id_cliente = (tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString());
+            id_definitivo = id_cliente.split("\\.", 2);
+        } else {
+
+            id_cliente = txt_id.getText();
+            System.out.println(id_cliente);
+            id_definitivo = id_cliente.split("\\.");
+        }
+
+        try {
+            if (id_cliente != null) {
+
+                int seleccion = JOptionPane.showOptionDialog(
+                        this,
+                        "Esta Seguro de eliminar el cliente " + tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1),
+                        "Confirmacion",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, // null para icono por defecto.
+                        new Object[]{"Si", "No"}, // null para YES, NO y CANCEL
+                        "opcion 1");
+
+                if (seleccion != -1) {
+
+                    if (seleccion == 0) {
+                        Double idf = Double.parseDouble(id_definitivo[0]);
+                        clienteController.destroy(idf);
+                        Cargar_infoClientes();
+
+                        JOptionPane.showMessageDialog(null, "El registro se elimino correctamente");
+
+                        Cargar_infoClientes();
+
+                    }
+
+                }
+            }
+        } catch (HeadlessException e) {
+
+            JOptionPane.showMessageDialog(null, e.getCause());
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(formClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btn_borrarActionPerformed
+
+    private void btn_seleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_seleccionarActionPerformed
+        // TODO add your handling code here:
+        try {
+            String name, id;
+
+            id = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
+            name = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString();
+
+            if (tablaClientes.getSelectedRowCount() > 0) {
+
+                if (!(name.isEmpty() && id.isEmpty())) {
+
+                    id = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
+                    name = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString();
+                    txt_id.setText(id);
+                    txt_nombre.setText(name);
+                }
+            }
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, "Seleccione una fila");
+        }
+
+    }//GEN-LAST:event_btn_seleccionarActionPerformed
+
+    private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
+        // TODO add your handling code here:
+        String id, name;
+
+        try {
+
+            id = txt_id.toString();
+            name = txt_nombre.toString();
+
+            if (!(name.isEmpty() && id.isEmpty())) {
+
+//              miCliente = (Cliente) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
+                id = txt_id.getText();
+                name = txt_nombre.getText();
+
+                //Nueva instancia editada
+                miCliente.setIdentCliente(Double.parseDouble(txt_id.getText().trim()));
+                miCliente.setNombreCliente(name);
+                System.out.println(id);
+                clienteController.edit(miCliente);
+                JOptionPane.showMessageDialog(null, "El cliente " + miCliente.getNombreCliente() + " Ha sido Actualizado");
+                Cargar_infoClientes();
+
+            }
+
+        } catch (Exception ex) {
+
+            Logger.getLogger(formClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_actualizarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        txt_buscar.setText("");
+        txt_nombre.setText("");
+        txt_id.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -433,9 +593,13 @@ public class formClientes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_actualizar;
+    private javax.swing.JButton btn_borrar;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_restablecer;
+    private javax.swing.JButton btn_seleccionar;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_Guardar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

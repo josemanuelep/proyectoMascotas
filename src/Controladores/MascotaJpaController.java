@@ -19,9 +19,12 @@ import Entidades.Mascota;
 import java.util.ArrayList;
 import java.util.List;
 import Entidades.Vacunacion;
+import static java.lang.Math.log;
+import static java.rmi.server.LogStream.log;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import static org.eclipse.persistence.expressions.ExpressionMath.log;
 
 /**
  *
@@ -30,12 +33,28 @@ import javax.persistence.Persistence;
 public class MascotaJpaController implements Serializable {
 
     public MascotaJpaController() {
-     this.emf = Persistence.createEntityManagerFactory("Administracion_MascotasPU");
+        this.emf = Persistence.createEntityManagerFactory("Administracion_MascotasPU");
     }
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+
+    public List<Object []> getAllMascotas_join() {
+        
+        EntityManager em = getEntityManager();
+        List<Object[]> results = em.createNativeQuery("SELECT mas.Id ,mas.Nombre, cli.NombreCliente , r.Raza FROM Tienda.Mascota as mas INNER JOIN Tienda.Cliente as cli ON cli.IdentCliente= mas.IdentCliente INNER JOIN Tienda.Raza r ON r.IdRaza = mas.IdRaza").getResultList();
+
+//        for (Object[] result : results) {
+//            System.out.println(result[0] + " " + result[1] + " - " + result[2]);
+//        }
+
+        em.getTransaction();
+        em.close();
+        
+        return results;
+
     }
 
     public void create(Mascota mascota) throws PreexistingEntityException, Exception {
@@ -301,5 +320,5 @@ public class MascotaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

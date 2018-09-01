@@ -7,6 +7,7 @@ package administracion_mascotas;
 
 import Controladores.ClienteJpaController;
 import Controladores.MascotaJpaController;
+import Controladores.MascotaJpaController;
 import Controladores.RazaJpaController;
 import Entidades.Cliente;
 import Entidades.Mascota;
@@ -14,8 +15,6 @@ import Entidades.Raza;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.SpinnerListModel;
-import javax.swing.SpinnerModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,47 +26,45 @@ public class formMascotas extends javax.swing.JFrame {
     //Instancia de controlador clientes
     ClienteJpaController clienteController = new ClienteJpaController();
     Cliente miCliente = new Cliente();
-    
+
     //Instancia de controlador Razas
     RazaJpaController razaController = new RazaJpaController();
     List<Raza> razas = razaController.findRazaEntities();
 
+    //instancia de controlador Mascotas
+    MascotaJpaController masController = new MascotaJpaController();
+    //Instancia de Mascota 
+    Mascota mas = new Mascota();
+
     public formMascotas() {
         initComponents();
+        CrearModeloMascotas();
+        Cargar_infoMascotas();
         CrearModeloClientes();
         Cargar_infoClientes();
+
         //Esconder boton 
         btn_restablecer.setVisible(false);
+
         //Grupo radio button
         buttonGroup1.add(rdb_id);
         buttonGroup1.add(rdb_nombre);
-        
-        //Datos del spinner model
-//        String[] values = {"one", "two", "free", "four"};
-//        SpinnerModel model = new SpinnerListModel(values);
-//        spn_raza.setModel(model);
 
         //Datos del comboBox
-        
         for (int i = 0; i < razas.size(); i++) {
-            
-            ComboBox_raza.addItem(razas.get(i).getIdRaza()+" - "+razas.get(i).getRaza());
+            ComboBox_raza.addItem(razas.get(i).getIdRaza() + " - " + razas.get(i).getRaza());
         }
-        
-        
-        
+
     }
 
-    //Instancia de Mascota y controlaodr
-    Mascota mas = new Mascota();
-    MascotaJpaController masController = new MascotaJpaController();
-
-    // Crear tabla a la hora de leer los datos
-    DefaultTableModel modelo;
+    // Crear tabla a la hora de leer los datos para clientes
+    DefaultTableModel modeloClientes;
+    // Crear tabla a la hora de leer los datos para clientes
+    DefaultTableModel modeloMascotas;
 
     private void CrearModeloClientes() {
         try {
-            modelo = (new DefaultTableModel(
+            modeloClientes = (new DefaultTableModel(
                     null, new String[]{
                         "id", "Nombre"}) {
 
@@ -89,7 +86,7 @@ public class formMascotas extends javax.swing.JFrame {
                     return canEdit[colIndex];
                 }
             });
-            tablaClientes.setModel(modelo);
+            tablaClientes.setModel(modeloClientes);
         } catch (Exception e) {
 
             JOptionPane.showMessageDialog(null, e.toString() + "error2");
@@ -106,14 +103,85 @@ public class formMascotas extends javax.swing.JFrame {
             for (int i = 0; i < listaClientes.size(); i++) {
 
                 //Listar Clientes retornados en la lista
-                modelo.addRow(Tupla);
-                modelo.setValueAt(listaClientes.get(i).getIdentCliente(), i, 0);
-                modelo.setValueAt(listaClientes.get(i).getNombreCliente(), i, 1);
+                modeloClientes.addRow(Tupla);
+                modeloClientes.setValueAt(listaClientes.get(i).getIdentCliente(), i, 0);
+                modeloClientes.setValueAt(listaClientes.get(i).getNombreCliente(), i, 1);
 
                 //System.out.println(listaClientes.get(i).getNombreCliente());
             }
             //System.out.println("Cargado con exito");
 
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+    }
+
+    private void CrearModeloMascotas() {
+        try {
+            modeloMascotas = (new DefaultTableModel(
+                    null, new String[]{
+                        "id", "Nombre", "Dueño", "Raza"}) {
+
+                Class[] types = new Class[]{
+                    java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class,
+                    java.lang.String.class
+                };
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false
+                };
+
+                @Override
+                public Class getColumnClass(int columnIndex) {
+                    return types[columnIndex];
+                }
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int colIndex) {
+                    return canEdit[colIndex];
+                }
+            });
+            tablaMascotas.setModel(modeloMascotas);
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, e.toString() + "error2");
+        }
+    }
+
+    //llenar tabla con mascotas
+    private void Cargar_infoMascotas() {
+
+        try {
+
+            Object Tupla[] = null;
+
+            List<Object[]> listaMascotas = masController.getAllMascotas_join();
+
+//            for (int i = 0; i < listaMascotas.size(); i++) {
+//
+//                //Listar Clientes retornados en la lista
+//                modeloMascotas.addRow(Tupla);
+//                modeloMascotas.setValueAt("Hola", i, 0);
+//                modeloMascotas.setValueAt("Hola", i, 1);
+//                modeloMascotas.setValueAt("bIEN", i, 1);
+//                modeloMascotas.setValueAt("bIEN", i, 2);
+//                modeloMascotas.setValueAt("bIEN", i, 3);
+//
+//            }
+            int i = 0;
+            for (Object[] result : listaMascotas) {
+
+                //Listar Clientes retornados en la lista
+                modeloMascotas.addRow(Tupla);
+                modeloMascotas.setValueAt(result[0], i, 0);
+                modeloMascotas.setValueAt(result[1], i, 1);
+                modeloMascotas.setValueAt(result[2], i, 2);
+                modeloMascotas.setValueAt(result[3], i, 3);
+                i++;
+            }
         } catch (Exception e) {
 
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -229,32 +297,36 @@ public class formMascotas extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(286, 286, 286)
-                                .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txt_dueño, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txt_nombreMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(ComboBox_raza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(14, 14, 14))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(ComboBox_raza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txt_dueño, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_nombreMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(14, 14, 14))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btn_restablecer, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton_Guardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                            .addComponent(jButton_Guardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,7 +337,7 @@ public class formMascotas extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_nombreMascota)
                     .addComponent(jLabel2)
-                    .addComponent(btn_buscar))
+                    .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -471,9 +543,9 @@ public class formMascotas extends javax.swing.JFrame {
                 for (int i = 0; i < cl.size(); i++) {
 
                     //Listar Clientes retornados en la lista
-                    modelo.addRow(Tupla);
-                    modelo.setValueAt(cl.get(i).getIdentCliente(), i, 0);
-                    modelo.setValueAt(cl.get(i).getNombreCliente(), i, 1);
+                    modeloClientes.addRow(Tupla);
+                    modeloClientes.setValueAt(cl.get(i).getIdentCliente(), i, 0);
+                    modeloClientes.setValueAt(cl.get(i).getNombreCliente(), i, 1);
 
                     //System.out.println(listaClientes.get(i).getNombreCliente());
                 }
@@ -494,7 +566,7 @@ public class formMascotas extends javax.swing.JFrame {
 
         Double id_cliente = (Double) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
 
-        System.out.println("" + id_cliente);
+        //System.out.println("" + id_cliente);
 
         txt_dueño.setText(id_cliente.toString());
     }//GEN-LAST:event_btn_selectDuenoActionPerformed

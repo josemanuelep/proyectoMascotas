@@ -186,12 +186,42 @@ public class ClienteJpaController implements Serializable {
         try {
 
             Query q = em.createNativeQuery("SELECT Cliente.NombreCliente , Cliente.IdentCliente FROM Tienda.Cliente WHERE Cliente.NombreCliente LIKE ?1", Cliente.class);
-            q.setParameter( 1 , "%"+nombreCliente+"%");
+            q.setParameter(1, "%" + nombreCliente + "%");
             List<Cliente> cl = (List<Cliente>) q.getResultList();
-            
+
             return cl;
         } finally {
             em.close();
+        }
+    }
+
+    public List OrderBy_clientes(String parametro) {
+        EntityManager em = getEntityManager();
+
+        if (parametro.equals("nombre")) {
+
+            try {
+
+                Query q = em.createNativeQuery("SELECT Cliente.NombreCliente , Cliente.IdentCliente FROM Tienda.Cliente order by Cliente.NombreCliente", Cliente.class);
+                List<Cliente> cl = (List<Cliente>) q.getResultList();
+                return cl;
+
+            } finally {
+                em.close();
+            }
+
+        } else {
+
+            try {
+
+                Query q = em.createNativeQuery("SELECT Cliente.NombreCliente , Cliente.IdentCliente FROM Tienda.Cliente order by Cliente.IdentCliente", Cliente.class);
+                List<Cliente> cl = (List<Cliente>) q.getResultList();
+                return cl;
+
+            } finally {
+                em.close();
+            }
+
         }
     }
 

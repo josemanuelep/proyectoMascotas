@@ -56,9 +56,7 @@ public class formClientes extends javax.swing.JFrame {
                 modelo.setValueAt(listaClientes.get(i).getIdentCliente(), i, 0);
                 modelo.setValueAt(listaClientes.get(i).getNombreCliente(), i, 1);
 
-                //System.out.println(listaClientes.get(i).getNombreCliente());
             }
-            //System.out.println("Cargado con exito");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -124,6 +122,8 @@ public class formClientes extends javax.swing.JFrame {
         btn_actualizar = new javax.swing.JButton();
         btn_seleccionar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btn_orderby_name = new javax.swing.JButton();
+        btnOrderby_ID = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -226,6 +226,20 @@ public class formClientes extends javax.swing.JFrame {
             }
         });
 
+        btn_orderby_name.setText("Ordenar por nombre");
+        btn_orderby_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_orderby_nameActionPerformed(evt);
+            }
+        });
+
+        btnOrderby_ID.setText("Ordenar por ID");
+        btnOrderby_ID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrderby_IDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -266,7 +280,12 @@ public class formClientes extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btn_orderby_name)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnOrderby_ID))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -301,7 +320,11 @@ public class formClientes extends javax.swing.JFrame {
                     .addComponent(rdb_nombre)
                     .addComponent(btn_restablecer))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_orderby_name)
+                    .addComponent(btnOrderby_ID))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50))
         );
 
@@ -557,6 +580,35 @@ public class formClientes extends javax.swing.JFrame {
         txt_id.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btn_orderby_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_orderby_nameActionPerformed
+        // TODO add your handling code here:
+        List<Cliente> OrderBy_clientes = clienteController.OrderBy_clientes("nombre");
+        Object Tupla[] = null;
+        for (int i = 0; i < OrderBy_clientes.size(); i++) {
+
+            //Listar Clientes retornados en la lista
+            modelo.addRow(Tupla);
+            modelo.setValueAt(OrderBy_clientes.get(i).getIdentCliente(), i, 0);
+            modelo.setValueAt(OrderBy_clientes.get(i).getNombreCliente(), i, 1);
+
+            //System.out.println(listaClientes.get(i).getNombreCliente());
+        }
+    }//GEN-LAST:event_btn_orderby_nameActionPerformed
+
+    private void btnOrderby_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderby_IDActionPerformed
+
+        List<Cliente> OrderBy_clientes = clienteController.OrderBy_clientes("id");
+        Object Tupla[] = null;
+        for (int i = 0; i < OrderBy_clientes.size(); i++) {
+
+            //Listar Clientes retornados en la lista
+            modelo.addRow(Tupla);
+            modelo.setValueAt(OrderBy_clientes.get(i).getIdentCliente(), i, 0);
+            modelo.setValueAt(OrderBy_clientes.get(i).getNombreCliente(), i, 1);
+
+        }
+    }//GEN-LAST:event_btnOrderby_IDActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -593,9 +645,11 @@ public class formClientes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOrderby_ID;
     private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton btn_borrar;
     private javax.swing.JButton btn_buscar;
+    private javax.swing.JButton btn_orderby_name;
     private javax.swing.JButton btn_restablecer;
     private javax.swing.JButton btn_seleccionar;
     private javax.swing.ButtonGroup buttonGroup2;

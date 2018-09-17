@@ -109,7 +109,7 @@ public class ClienteJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Double id = cliente.getIdentCliente();
+                Float id = cliente.getIdentCliente();
                 if (findCliente(id) == null) {
                     throw new NonexistentEntityException("The cliente with id " + id + " no longer exists.");
                 }
@@ -172,7 +172,7 @@ public class ClienteJpaController implements Serializable {
         }
     }
 
-    public Cliente findCliente(Double id) {
+    public Cliente findCliente(Float id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Cliente.class, id);

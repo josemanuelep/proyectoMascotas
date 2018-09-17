@@ -36,7 +36,7 @@ public class Cliente implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "IdentCliente")
-    private Double identCliente;
+    private Float identCliente;
     @Basic(optional = false)
     @Column(name = "NombreCliente")
     private String nombreCliente;
@@ -46,20 +46,20 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(Double identCliente) {
+    public Cliente(Float identCliente) {
         this.identCliente = identCliente;
     }
 
-    public Cliente(Double identCliente, String nombreCliente) {
+    public Cliente(Float identCliente, String nombreCliente) {
         this.identCliente = identCliente;
         this.nombreCliente = nombreCliente;
     }
 
-    public Double getIdentCliente() {
+    public Float getIdentCliente() {
         return identCliente;
     }
 
-    public void setIdentCliente(Double identCliente) {
+    public void setIdentCliente(Float identCliente) {
         this.identCliente = identCliente;
     }
 

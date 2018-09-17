@@ -41,18 +41,14 @@ public class MascotaJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public List<Object []> getAllMascotas_join() {
-        
+    public List<Object[]> getAllMascotas_join() {
+
         EntityManager em = getEntityManager();
         List<Object[]> results = em.createNativeQuery("SELECT mas.Id ,mas.Nombre, cli.NombreCliente , r.Raza FROM Tienda.Mascota as mas INNER JOIN Tienda.Cliente as cli ON cli.IdentCliente= mas.IdentCliente INNER JOIN Tienda.Raza r ON r.IdRaza = mas.IdRaza").getResultList();
 
-//        for (Object[] result : results) {
-//            System.out.println(result[0] + " " + result[1] + " - " + result[2]);
-//        }
-
         em.getTransaction();
         em.close();
-        
+
         return results;
 
     }
@@ -303,6 +299,22 @@ public class MascotaJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.find(Mascota.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Object[]> findMascota(String nombreMascota) {
+        EntityManager em = getEntityManager();
+        try {
+
+            Query q = em.createNativeQuery("SELECT mas.Id ,mas.Nombre, cli.NombreCliente , r.Raza FROM Tienda.Mascota as mas INNER JOIN Tienda.Cliente as cli ON cli.IdentCliente= mas.IdentCliente INNER JOIN Tienda.Raza r ON r.IdRaza = mas.IdRaza WHERE mas.Nombre LIKE ?1");
+            q.setParameter(1, "%" + nombreMascota + "%");
+            List<Object[]> results = q.getResultList();
+            ////////
+
+            return results;
+
         } finally {
             em.close();
         }

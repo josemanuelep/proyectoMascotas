@@ -42,18 +42,20 @@ public class formClientes extends javax.swing.JFrame {
     Cliente miCliente = new Cliente();
 
     //Cargar la informacion de la BD
-    private void Cargar_infoClientes() {
+    public  void Cargar_infoClientes() {
 
         try {
             Object Tupla[] = null;
-
+            
             List<Cliente> listaClientes = clienteController.findClienteEntities();
 
             for (int i = 0; i < listaClientes.size(); i++) {
-
+                
+                float numero= listaClientes.get(i).getIdentCliente();
+                int num = (int) numero;
                 //Listar Clientes retornados en la lista
                 modelo.addRow(Tupla);
-                modelo.setValueAt(listaClientes.get(i).getIdentCliente(), i, 0);
+                modelo.setValueAt(num, i, 0);
                 modelo.setValueAt(listaClientes.get(i).getNombreCliente(), i, 1);
 
             }
@@ -67,7 +69,7 @@ public class formClientes extends javax.swing.JFrame {
     // Crear tabla a la hora de leer los datos
     DefaultTableModel modelo;
 
-    private void CrearModelo() {
+    public void CrearModelo() {
         try {
             modelo = (new DefaultTableModel(
                     null, new String[]{
@@ -97,12 +99,20 @@ public class formClientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.toString() + "error2");
         }
     }
+    public void Limpiar()
+    {
+        txt_id.setText("");
+        txt_nombre.setText("");
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         buttonGroup2 = new javax.swing.ButtonGroup();
+        jPopupMenu = new javax.swing.JPopupMenu();
+        pMnModificar = new javax.swing.JMenuItem();
+        pMnEliminar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         btn_buscar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -124,6 +134,22 @@ public class formClientes extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         btn_orderby_name = new javax.swing.JButton();
         btnOrderby_ID = new javax.swing.JButton();
+
+        pMnModificar.setText("Modificar");
+        pMnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pMnModificarActionPerformed(evt);
+            }
+        });
+        jPopupMenu.add(pMnModificar);
+
+        pMnEliminar.setText("Eliminar");
+        pMnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pMnEliminarActionPerformed(evt);
+            }
+        });
+        jPopupMenu.add(pMnEliminar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -150,6 +176,9 @@ public class formClientes extends javax.swing.JFrame {
 
             }
         ));
+        tablaClientes.setColumnSelectionAllowed(true);
+        tablaClientes.setComponentPopupMenu(jPopupMenu);
+        tablaClientes.setDoubleBuffered(true);
         jScrollPane1.setViewportView(tablaClientes);
 
         txt_id.addActionListener(new java.awt.event.ActionListener() {
@@ -362,7 +391,7 @@ public class formClientes extends javax.swing.JFrame {
         //Instancia de cliente
         Cliente cliente = new Cliente();
         String nombre = txt_nombre.getText();
-        Double id = Double.parseDouble(txt_id.getText());
+        Float id = Float.parseFloat(txt_id.getText());
 
         if (nombre != null && id != null) {
 
@@ -403,7 +432,7 @@ public class formClientes extends javax.swing.JFrame {
 
         if (rdb_id.isSelected() == true) {
 
-            Double id = Double.parseDouble(txt_buscar.getText());
+            Float id = Float.parseFloat(txt_buscar.getText());
             miCliente = clienteController.findCliente(id);
             if (miCliente != null) {
                 txt_nombre.setText(miCliente.getNombreCliente());
@@ -531,7 +560,9 @@ public class formClientes extends javax.swing.JFrame {
                     id = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
                     name = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString();
                     txt_id.setText(id);
+                    txt_id.setEnabled(true);
                     txt_nombre.setText(name);
+                    
                 }
             }
 
@@ -544,27 +575,28 @@ public class formClientes extends javax.swing.JFrame {
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
         // TODO add your handling code here:
-        String id, name;
+        String name;
+        Float id;
 
         try {
 
-            id = txt_id.toString();
-            name = txt_nombre.toString();
+            id = Float.parseFloat(txt_id.getText().trim());
+            name = txt_nombre.getText().trim();
 
-            if (!(name.isEmpty() && id.isEmpty())) {
-
-//              miCliente = (Cliente) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
-                id = txt_id.getText();
-                name = txt_nombre.getText();
-
-                //Nueva instancia editada
-                miCliente.setIdentCliente(Double.parseDouble(txt_id.getText().trim()));
+            if (!(name.isEmpty() && id.isNaN())) {                
+                
+                miCliente.setIdentCliente(id);
                 miCliente.setNombreCliente(name);
                 System.out.println(id);
                 clienteController.edit(miCliente);
                 JOptionPane.showMessageDialog(null, "El cliente " + miCliente.getNombreCliente() + " Ha sido Actualizado");
                 Cargar_infoClientes();
+                Limpiar();
 
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "no haz selecionado un dato");
             }
 
         } catch (Exception ex) {
@@ -608,6 +640,39 @@ public class formClientes extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_btnOrderby_IDActionPerformed
+
+    private void pMnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pMnModificarActionPerformed
+        int fila=tablaClientes.getSelectedRow();
+        if (fila>=0)
+        {
+            txt_id.setText(tablaClientes.getValueAt(fila, 0).toString());
+            txt_nombre.setText(tablaClientes.getValueAt(fila, 1).toString());           
+            txt_id.setEnabled(false);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "por favor seleccione la fila");
+        }
+    }//GEN-LAST:event_pMnModificarActionPerformed
+
+    private void pMnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pMnEliminarActionPerformed
+        int fila=tablaClientes.getSelectedRow();
+        if (fila>=0)
+        {
+            try {
+                clienteController.destroy(Double.parseDouble(tablaClientes.getValueAt(fila, 0).toString()));
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(formClientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Limpiar();
+            Cargar_infoClientes();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "No selecciono fila");
+        }
+        
+        
+    }//GEN-LAST:event_pMnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -659,8 +724,11 @@ public class formClientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JMenuItem pMnEliminar;
+    private javax.swing.JMenuItem pMnModificar;
     private javax.swing.JRadioButton rdb_id;
     private javax.swing.JRadioButton rdb_nombre;
     private javax.swing.JTable tablaClientes;

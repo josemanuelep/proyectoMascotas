@@ -28,7 +28,7 @@ import javax.persistence.Persistence;
 public class RazaJpaController implements Serializable {
 
     public RazaJpaController() {
-        
+
         this.emf = Persistence.createEntityManagerFactory("Administracion_MascotasPU");
     }
     private EntityManagerFactory emf = null;
@@ -211,6 +211,21 @@ public class RazaJpaController implements Serializable {
         }
     }
 
+    public List<Object[]> RazaXespecie(String NombreEspecie) {
+        EntityManager em = getEntityManager();
+        try {
+
+            Query q = em.createNativeQuery("SELECT rz.IdRaza,rz.Raza FROM Tienda.Raza  AS rz  INNER JOIN Tienda.Especie AS esp ON rz.IdEspecie=esp.IdEspecie WHERE  esp.Especie  = ?1");
+            q.setParameter(1, NombreEspecie);
+            List<Object[]> results = q.getResultList();
+
+            return results;
+
+        } finally {
+            em.close();
+        }
+    }
+
     public int getRazaCount() {
         EntityManager em = getEntityManager();
         try {
@@ -223,5 +238,5 @@ public class RazaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

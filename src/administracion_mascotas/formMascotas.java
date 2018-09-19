@@ -15,6 +15,8 @@ import Entidades.Mascota;
 import Entidades.Raza;
 import Entidades.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -53,9 +55,13 @@ public class formMascotas extends javax.swing.JFrame {
         //Esconder boton 
         btn_restablecer.setVisible(false);
 
-        //Grupo radio button
+        //Grupo radio button Clientes
         buttonGroup1.add(rdb_id);
         buttonGroup1.add(rdb_nombre);
+
+        //Grupo radio button Mascotas
+        buttonGroup2.add(Rdb_id);
+        buttonGroup2.add(Rdb_nombre);
 
         //Datos de combox especie
         for (int i = 0; i < especies.size(); i++) {
@@ -201,6 +207,7 @@ public class formMascotas extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jButton_Guardar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -216,6 +223,8 @@ public class formMascotas extends javax.swing.JFrame {
         ComboBox_raza = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         ComboBox_especie = new javax.swing.JComboBox<>();
+        Rdb_nombre = new javax.swing.JRadioButton();
+        Rdb_id = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaClientes = new javax.swing.JTable();
@@ -301,76 +310,91 @@ public class formMascotas extends javax.swing.JFrame {
             }
         });
 
+        Rdb_nombre.setText("Nombre");
+
+        Rdb_id.setText("ID");
+        Rdb_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Rdb_idActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_restablecer)))
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ComboBox_raza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txt_dueño, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_nombreMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton_Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(ComboBox_especie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(13, 13, 13))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
+                    .addComponent(jSeparator1)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel4)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel1))
+                            .addGap(31, 31, 31)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(ComboBox_especie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(txt_dueño, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                                                .addComponent(txt_nombreMascota))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(btn_buscar))
+                                        .addComponent(ComboBox_raza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(Rdb_id)
+                                            .addGap(29, 29, 29)
+                                            .addComponent(Rdb_nombre)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(btn_restablecer)
+                                            .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                            .addGap(0, 0, Short.MAX_VALUE)
+                                            .addComponent(jButton_Guardar))))))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txt_nombreMascota)
-                        .addComponent(jLabel2)))
-                .addGap(18, 18, 18)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_Guardar))
+                    .addComponent(txt_nombreMascota)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Rdb_nombre)
+                    .addComponent(Rdb_id))
+                .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txt_dueño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_Guardar))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(98, 98, 98)
-                        .addComponent(btn_restablecer)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(ComboBox_especie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(ComboBox_raza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txt_dueño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(ComboBox_especie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(ComboBox_raza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_restablecer))
+                .addGap(22, 22, 22)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Clientes"));
@@ -474,8 +498,8 @@ public class formMascotas extends javax.swing.JFrame {
                             .addComponent(rdb_nombre))))
                 .addGap(18, 18, 18)
                 .addComponent(txt_restablecerClientes)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -486,67 +510,22 @@ public class formMascotas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
-
-        String petName = txt_nombreMascota.getText();
-        List<Object[]> listaMascotas = masController.findMascota(petName);
-        int i = 0;
-        Object Tupla[] = null;
-        limpiarTabla(tablaMascotas);
-        if (listaMascotas.isEmpty()) {
-            Cargar_infoMascotas();
-        } else {
-
-            for (Object[] result : listaMascotas) {
-
-                modeloMascotas.addRow(Tupla);
-                modeloMascotas.setValueAt(result[0], i, 0);
-                modeloMascotas.setValueAt(result[1], i, 1);
-                modeloMascotas.setValueAt(result[2], i, 2);
-                modeloMascotas.setValueAt(result[3], i, 3);
-                i++;
-            }
-
-            btn_restablecer.setVisible(true);
-        }
-
-
-    }//GEN-LAST:event_btn_buscarActionPerformed
-
-    private void btn_restablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restablecerActionPerformed
-        Cargar_infoMascotas();
-    }//GEN-LAST:event_btn_restablecerActionPerformed
-
-    private void txt_dueñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_dueñoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_dueñoActionPerformed
-
-    private void txt_nombreMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreMascotaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_nombreMascotaActionPerformed
-
-    private void jButton_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GuardarActionPerformed
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_jButton_GuardarActionPerformed
 
     private void rdb_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdb_nombreActionPerformed
         // TODO add your handling code here:
@@ -614,22 +593,134 @@ public class formMascotas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txt_restablecerClientesActionPerformed
 
+    private void ComboBox_especieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBox_especieActionPerformed
+
+        String idEspecie = (String) ComboBox_especie.getSelectedItem();
+        ComboBox_raza.removeAllItems();
+        List<Object[]> list = razaController.RazaXespecie(idEspecie);
+        for (Object[] result : list) {
+
+            ComboBox_raza.addItem(result[0].toString() + "-" + result[1].toString());
+
+        }
+    }//GEN-LAST:event_ComboBox_especieActionPerformed
+
     private void ComboBox_razaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBox_razaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboBox_razaActionPerformed
 
-    private void ComboBox_especieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBox_especieActionPerformed
-        
-        String idEspecie = (String) ComboBox_especie.getSelectedItem();
-        System.out.println(idEspecie);
-        List<Object []> list = razaController.RazaXespecie(idEspecie);
-       
-            for (Object[] result : list) {
-               
-                ComboBox_raza.addItem(result[0].toString()+"-"+result[1].toString());
-                
+    private void txt_nombreMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreMascotaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_nombreMascotaActionPerformed
+
+    private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
+        String petName = txt_nombreMascota.getText();
+        int i = 0;
+        Object Tupla[] = null;
+        List<Object[]> listaMascotas;
+
+        if (!(petName.isEmpty()) && Rdb_nombre.isSelected()) {
+
+            listaMascotas = masController.findMascota(petName);
+            limpiarTabla(tablaMascotas);
+            if (listaMascotas.isEmpty()) {
+                Cargar_infoMascotas();
+            } else {
+
+                for (Object[] result : listaMascotas) {
+
+                    modeloMascotas.addRow(Tupla);
+                    modeloMascotas.setValueAt(result[0], i, 0);
+                    modeloMascotas.setValueAt(result[1], i, 1);
+                    modeloMascotas.setValueAt(result[2], i, 2);
+                    modeloMascotas.setValueAt(result[3], i, 3);
+                    i++;
+                }
+
+                btn_restablecer.setVisible(true);
             }
-    }//GEN-LAST:event_ComboBox_especieActionPerformed
+
+        } else {
+
+            if (!(petName.isEmpty()) && Rdb_id.isSelected()) {
+
+                try {
+
+                    Long idmascota = Long.parseLong(txt_nombreMascota.getText());
+                    listaMascotas = masController.findMascota(idmascota);
+                    if (listaMascotas.isEmpty()) {
+
+                        JOptionPane.showMessageDialog(null, "La mascota no esta registrada");
+                        Cargar_infoMascotas();
+
+                    } else {
+                        
+                        limpiarTabla(tablaMascotas);
+                        for (Object[] result : listaMascotas) {
+
+                            modeloMascotas.addRow(Tupla);
+                            modeloMascotas.setValueAt(result[0], i, 0);
+                            modeloMascotas.setValueAt(result[1], i, 1);
+                            modeloMascotas.setValueAt(result[2], i, 2);
+                            modeloMascotas.setValueAt(result[3], i, 3);
+                            i++;
+                        }
+
+                        btn_restablecer.setVisible(true);
+                    }
+
+                } catch (Exception e) {
+
+                    throw e;
+                }
+
+            }
+
+        }
+
+
+    }//GEN-LAST:event_btn_buscarActionPerformed
+
+    private void txt_dueñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_dueñoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_dueñoActionPerformed
+
+    private void btn_restablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restablecerActionPerformed
+        Cargar_infoMascotas();
+    }//GEN-LAST:event_btn_restablecerActionPerformed
+
+    private void jButton_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GuardarActionPerformed
+        // TODO add your handling code here:
+        String rz = ComboBox_raza.getItemAt(ComboBox_raza.getSelectedIndex());
+        String[] rzArray = rz.split("-");
+
+        // Objeto Raza 
+        Long idrz = Long.valueOf(rzArray[0]);
+        Raza miRaza = razaController.findRaza(idrz);
+
+        //Objeto cliente
+        float idc = Float.parseFloat(txt_dueño.getText());
+        Cliente myCliente = clienteController.findCliente(idc);
+
+        //Instanciar Objeto a Mascota a Guardar
+        Mascota miMascota = new Mascota();
+        miMascota.setNombre(txt_nombreMascota.getText().trim());
+        miMascota.setIdRaza(miRaza);
+        miMascota.setIdentCliente(myCliente);
+
+        try {
+            masController.create(miMascota);
+            JOptionPane.showMessageDialog(null, "El " + miRaza.getRaza() + " " + miMascota.getNombre() + " Ha sido registrado exitosamente");
+            Cargar_infoMascotas();
+        } catch (Exception ex) {
+            Logger.getLogger(formMascotas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton_GuardarActionPerformed
+
+    private void Rdb_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Rdb_idActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Rdb_idActionPerformed
 
     /**
      * @param args the command line arguments
@@ -669,11 +760,14 @@ public class formMascotas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboBox_especie;
     private javax.swing.JComboBox<String> ComboBox_raza;
+    private javax.swing.JRadioButton Rdb_id;
+    private javax.swing.JRadioButton Rdb_nombre;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_buscarDueno;
     private javax.swing.JButton btn_restablecer;
     private javax.swing.JButton btn_selectDueno;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton_Guardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -295,10 +295,13 @@ public class MascotaJpaController implements Serializable {
         }
     }
 
-    public Mascota findMascota(Long id) {
+    public List<Object[]> findMascota(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Mascota.class, id);
+            Query q = em.createNativeQuery("SELECT mas.Id ,mas.Nombre, cli.NombreCliente , r.Raza FROM Tienda.Mascota as mas INNER JOIN Tienda.Cliente as cli ON cli.IdentCliente= mas.IdentCliente INNER JOIN Tienda.Raza r ON r.IdRaza = mas.IdRaza WHERE mas.Id = ?1");
+            q.setParameter(1, id);
+            return q.getResultList();
+            
         } finally {
             em.close();
         }

@@ -560,8 +560,9 @@ public class formClientes extends javax.swing.JFrame {
                     id = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
                     name = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString();
                     txt_id.setText(id);
-                    txt_id.setEnabled(true);
+                    txt_id.setEnabled(false);
                     txt_nombre.setText(name);
+                  
                     
                 }
             }
@@ -575,21 +576,22 @@ public class formClientes extends javax.swing.JFrame {
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
         // TODO add your handling code here:
+        //Instancia de Objeto a editar
+        Cliente Ecliente;
         String name;
         Float id;
 
         try {
-
+            
             id = Float.parseFloat(txt_id.getText().trim());
             name = txt_nombre.getText().trim();
-
+            Ecliente = clienteController.findCliente(id);
+            
             if (!(name.isEmpty() && id.isNaN())) {                
                 
-                miCliente.setIdentCliente(id);
-                miCliente.setNombreCliente(name);
-                System.out.println(id);
-                clienteController.edit(miCliente);
-                JOptionPane.showMessageDialog(null, "El cliente " + miCliente.getNombreCliente() + " Ha sido Actualizado");
+                Ecliente.setNombreCliente(name);
+                clienteController.edit(Ecliente);
+                JOptionPane.showMessageDialog(null, "El cliente " + Ecliente.getNombreCliente() + " Ha sido Actualizado");
                 Cargar_infoClientes();
                 Limpiar();
 

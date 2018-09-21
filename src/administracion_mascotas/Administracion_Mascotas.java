@@ -12,12 +12,10 @@ package administracion_mascotas;
 public class Administracion_Mascotas {
 
     public static void main(String[] args) {
-          
-       formClientes formC = new formClientes();
-       formMascotas form_mascotas = new formMascotas();
-       form_mascotas.setVisible(true);
-       formC.setVisible(false);
-         
+
+        Inicio formInicio = new Inicio();
+        formInicio.setVisible(true);
+
     }
-    
+
 }
